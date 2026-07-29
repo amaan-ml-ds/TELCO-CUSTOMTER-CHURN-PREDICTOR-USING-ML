@@ -1,0 +1,44 @@
+# venvs
+.venv/
+venv/
+env/
+
+# OS cruft
+.DS_Store
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Big artifacts, databases, & raw data
+mlruns/
+mlflow.db
+*.db
+*.csv
+artifacts/
+data/raw/
+data/processed/
+
+# BUT keep our bundled serving model in the repo
+!src/serving/model/
+!src/serving/model/**
+
+# --- Secrets & Environment Variables ---
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# --- Jupyter / Colab Checkpoints ---
+.ipynb_checkpoints/
+
+# --- IDE & Testing ---
+.vscode/
+.idea/
+.pytest_cache/
+.coverage
+
+# --- Docker ---
+*.tar
