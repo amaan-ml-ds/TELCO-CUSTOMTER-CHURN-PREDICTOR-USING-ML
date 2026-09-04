@@ -23,13 +23,6 @@ Build and ship a full machine-learning solution for predicting customer churn in
 - Security: Security groups scoped to allow ALB inbound 80 from the internet, and task inbound 8000 from the ALB SG.
 - Observability: CloudWatch Logs for container stdout/stderr and ECS service events.
 
-### Deployment flow (high-level)
-
-- Push to main → GitHub Actions builds the Docker image and pushes it to Docker Hub.
-- ECS service is updated (manually or via the workflow) to force a new deployment.
-- ALB health checks hit / on port 8000; once healthy, traffic is routed to the new task.
-- Users call POST /predict or open the Gradio UI at /ui via the ALB DNS.
-
 ### Roadblocks & how we solved them
 
 Unhealthy targets behind ALB
@@ -42,22 +35,9 @@ Module import error in container (ModuleNotFoundError: serving)
 - Cause: Python path in the image didn’t include src/.
 - Fixes: Set PYTHONPATH=/app/src in the Dockerfile; corrected uvicorn app path to src.app.main:app.
 
-ALB DNS timing out
-
-- Cause: Security group rules not aligned with traffic flow.
-- Fixes: ALB SG allows inbound 80 from 0.0.0.0/0; task SG allows inbound 8000 from the ALB SG; outbound open.
-
-ECS redeploy not picking up the new image
-
-- Cause: Service still running previous task definition.
-- Fixes: Force new deployment (CLI or console) after pushing the new image; optional step added to CI.
-
 Gradio UI error (“No runs found in experiment”)
 
 - Cause: Inference/UI expected an MLflow-logged model but couldn’t resolve a run.
 - Fixes: Standardized MLflow experiment name and model logging in training; inference loads the logged model consistently (and a local path for dev).
 
-Local testing vs. prod paths
 
-- Cause: MLflow artifact URIs differ locally vs. in container.
-- Fixes: For local dev, load via direct ./mlruns/.../artifacts/model; in prod, container loads the packaged model path used at build time.
