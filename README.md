@@ -1,6 +1,6 @@
 # Telco Customer Churn Prediction
 
-A machine learning project for predicting customer churn using the IBM Telco Customer Churn dataset. The project focuses on exploratory data analysis, categorical feature encoding, data cleaning, multicollinearity analysis, imbalanced classification, model comparison, threshold tuning, hyperparameter optimization with Optuna, and experiment tracking with MLflow.
+A machine learning project for predicting customer churn using the IBM Telco Customer Churn dataset. The project focuses on exploratory data analysis, categorical feature encoding, data cleaning, multicollinearity analysis, imbalanced classification, model comparison, threshold tuning, hyperparameter optimization with Optuna, and experiment tracking with MLflow 
 
 ## Project Overview
 
